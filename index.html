@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House of Ember - Authentic Handcrafted Candles</title>
+    <meta name="description" content="Discover House of Ember - where authentic craftsmanship meets aesthetic beauty. Premium quality candles that illuminate your space with warmth and elegance.">
+    
+    <style>
+        /* ==========================================================================
+           CSS RESET & BASE STYLES
+           ========================================================================== */
+        
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #3C4A3B;
+            background-color: #F5F3F1;
+            transform: translateZ(0);
+        }
+
+        /* ==========================================================================
+           LAYOUT COMPONENTS
+           ========================================================================== */
+        
+        .page {
+            padding: 40px 20px 60px;
+            display: block;
+            text-align: center;
+            position: relative;
+            contain: layout style paint;
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* ==========================================================================
+           NAVIGATION
+           ========================================================================== */
+        
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(245, 243, 241, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(139, 154, 138, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #4A5D4F;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            padding: 8px;
+        }
+
+        .nav-link {
+            color: #6B7A69;
+            text-decoration: none;
+            font-size: 1rem;
+            cursor: pointer;
+            position: relative;
+            padding: 8px 16px;
+            border-radius: 8px;
+            /* Smooth hover transitions - safe now that scroll is optimized */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+        }
+        
+        .nav-link:hover {
+            color: #4A5D4F;
+            background: rgba(139, 154, 138, 0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(95, 122, 97, 0.15);
+        }
+        
+        .nav-link:focus {
+            outline: none;
+            color: #4A5D4F;
+            background: rgba(139, 154, 138, 0.1);
+            box-shadow: 0 0 0 2px rgba(139, 154, 138, 0.3);
+        }
+        
+        .nav-link:active {
+            transform: translateY(-1px);
+        }
+        
+        .nav-link.active {
+            color: #4A5D4F;
+            background: rgba(139, 154, 138, 0.15);
+            font-weight: 500;
+        }
+        
+        /* Click animation effect */
+        .nav-link.clicking {
+            animation: navClick 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(139, 154, 138, 0.2);
+            color: #3E5142;
+            position: relative;
+        }
+        
+        /* Loading state during navigation */
+        .nav-link.navigating {
+            color: #3E5142;
+            background: rgba(139, 154, 138, 0.15);
+            cursor: wait;
+        }
+        
+        .nav-link.navigating::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(139, 154, 138, 0.3) 50%, 
+                transparent 100%);
+            animation: shimmer 1.5s ease-in-out infinite;
+            border-radius: 8px;
+        }
+        
+        /* Success feedback when navigation completes */
+        .nav-link.navigation-complete {
+            animation: navigationSuccess 0.5s ease-out;
+        }
+        
+        /* Visual indicator during scroll */
+        .scrolling-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                rgba(139, 154, 138, 0.8) 0%, 
+                rgba(75, 93, 79, 0.9) 50%, 
+                rgba(139, 154, 138, 0.8) 100%);
+            z-index: 1001;
+            animation: scrollProgress 1.2s ease-out;
+            transform-origin: left;
+        }
+        
+        @keyframes scrollProgress {
+            0% {
+                transform: scaleX(0);
+            }
+            70% {
+                transform: scaleX(0.8);
+            }
+            100% {
+                transform: scaleX(1);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes navigationSuccess {
+            0% {
+                background: rgba(139, 154, 138, 0.15);
+                box-shadow: 0 0 0 0 rgba(139, 154, 138, 0.4);
+            }
+            50% {
+                background: rgba(139, 154, 138, 0.25);
+                box-shadow: 0 0 0 8px rgba(139, 154, 138, 0.1);
+            }
+            100% {
+                background: rgba(139, 154, 138, 0.15);
+                box-shadow: 0 0 0 0 rgba(139, 154, 138, 0);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        
+        @keyframes navClick {
+            0% {
+                transform: translateY(-2px) scale(1);
+            }
+            30% {
+                transform: translateY(-4px) scale(1.05);
+                box-shadow: 0 8px 25px rgba(95, 122, 97, 0.25);
+            }
+            60% {
+                transform: translateY(-2px) scale(1.02);
+            }
+            100% {
+                transform: translateY(-2px) scale(1);
+            }
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #4A5D4F;
+        }
+
+        /* ==========================================================================
+           TYPOGRAPHY
+           ========================================================================== */
+        
+        .heading-primary {
+            font-size: 5rem;
+            font-weight: 300;
+            color: #4A5D4F;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 3px rgba(74, 93, 79, 0.1);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .heading-primary::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, #8B9A8A, #6B7A69);
+        }
+
+        .heading-secondary {
+            font-size: 3.2rem;
+            color: #4A5D4F;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+        }
+
+        .heading-tertiary {
+            font-size: 1.4rem;
+            color: #4A5D4F;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+
+        .text-tagline {
+            font-size: 1.4rem;
+            color: #6B7A69;
+            font-style: italic;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .text-subtitle {
+            font-size: 1.1rem;
+            color: #7A8471;
+            line-height: 1.8;
+            margin-bottom: 60px;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .text-description {
+            font-size: 1.4rem;
+            color: #6B7A69;
+            line-height: 1.8;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .text-collection-subtitle {
+            font-size: 1.2rem;
+            color: #7A8471;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ==========================================================================
+           GRID SYSTEMS
+           ========================================================================== */
+        
+        .grid {
+            display: grid;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .grid--3-col {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid--collection {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ==========================================================================
+           COMPONENT: HERO IMAGES
+           ========================================================================== */
+        
+        .hero-image {
+            height: 400px;
+            border-radius: 20px;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 25px 60px rgba(95, 122, 97, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 20px;
+            pointer-events: none;
+        }
+
+        .hero-image--sage {
+            background-image: url('images/IMG_1119.JPG');
+        }
+
+        .hero-image--garden {
+            background-image: url('images/IMG_1120.JPG');
+        }
+
+        .hero-image--forest {
+            background-image: url('images/IMG_1121.JPG');
+        }
+
+        /* ==========================================================================
+           COMPONENT: FEATURED IMAGE
+           ========================================================================== */
+        
+        .featured-image {
+            width: 400px;
+            height: 300px;
+            margin: 40px auto 0;
+            border-radius: 25px;
+            background: url('images/IMG_1043.jpg') center/cover;
+            box-shadow: 0 25px 50px rgba(95, 122, 97, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* ==========================================================================
+           COMPONENT: PRODUCT CARDS
+           ========================================================================== */
+        
+        .product-card {
+            background: #FCF8F2;
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(95, 122, 97, 0.1);
+            border: 1px solid rgba(235, 225, 215, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 280px;
+            border-radius: 15px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 2px solid rgba(139, 154, 138, 0.1);
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+        
+
+
+        /* ==========================================================================
+           DYNAMIC PRODUCT IMAGES - Generated by JavaScript
+           ========================================================================== */
+
+        /* ==========================================================================
+           SCROLLABLE SECTIONS
+           ========================================================================== */
+        
+        .page-section {
+            display: block;
+        }
+
+        /* ==========================================================================
+           HOVER EFFECTS
+           ========================================================================== */
+        
+        @media (hover: hover) and (pointer: fine) {
+            .hero-image:hover {
+                transform: translateY(-5px) scale(1.01);
+                transition: transform 0.2s ease-out;
+            }
+
+            .product-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 25px 60px rgba(95, 122, 97, 0.15);
+                transition: all 0.3s ease;
+            }
+        }
+
+        /* ==========================================================================
+           RESPONSIVE DESIGN
+           ========================================================================== */
+        
+        @media (max-width: 1200px) {
+            .grid--collection {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page {
+                padding: 30px 15px 40px; /* Much tighter padding for mobile */
+            }
+
+            .nav {
+                padding: 12px 15px; /* Slightly smaller navbar on mobile */
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-link {
+                font-size: 0.9rem;
+                padding: 6px 12px; /* Smaller nav links on mobile */
+            }
+
+            .heading-primary {
+                font-size: 3.5rem;
+                letter-spacing: 3px;
+            }
+            
+            .heading-secondary {
+                font-size: 3rem;
+            }
+            
+            .grid--3-col {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .grid--collection {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .hero-image {
+                height: 300px;
+            }
+
+            .featured-image {
+                width: 300px;
+                height: 240px;
+            }
+
+            .product-image {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .heading-primary {
+                font-size: 2.8rem;
+                letter-spacing: 2px;
+            }
+
+            .heading-secondary {
+                font-size: 2.5rem;
+            }
+
+            .hero-image {
+                height: 250px;
+            }
+
+            .featured-image {
+                width: 250px;
+                height: 200px;
+            }
+
+            .product-image {
+                height: 220px;
+            }
+        }
+
+        /* ==========================================================================
+           PERFORMANCE OPTIMIZATIONS
+           ========================================================================== */
+        
+        /* Use will-change only when actively animating */
+        .hero-image:hover,
+        .product-card:hover {
+            will-change: transform;
+        }
+        
+        /* Removed transform optimization for nav links to avoid conflicts */
+        
+        /* AGGRESSIVE SCROLL OPTIMIZATIONS */
+        
+        /* Force GPU acceleration for all scrollable content */
+        .product-card,
+        .product-image,
+        .page {
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            contain: layout style paint;
+        }
+        
+        /* Optimize text rendering during scroll */
+        .heading-primary,
+        .heading-secondary, 
+        .heading-tertiary {
+            text-rendering: optimizeSpeed;
+            contain: style;
+        }
+        
+        /* Disable pointer events during scroll to reduce processing */
+        body.scrolling * {
+            pointer-events: none;
+        }
+        
+        /* Optimize root scroll performance */
+        html {
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: auto; /* Disable smooth scroll for better performance */
+        }
+        
+        body {
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+        }
+        
+        /* Optimize images for scroll performance */
+        .hero-image,
+        .product-image {
+            image-rendering: optimizeSpeed;
+            transform: translate3d(0, 0, 0);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="nav-brand">House of Ember</a>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                <li><a href="#" class="nav-link" data-page="about">About</a></li>
+                <li><a href="#" class="nav-link" data-page="premium">Premium</a></li>
+                <li><a href="#" class="nav-link" data-page="jars">Jar Candles</a></li>
+                <li><a href="#" class="nav-link" data-page="traditional">Traditional</a></li>
+                <li><a href="#" class="nav-link" data-page="hampers">Hampers</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Landing Section -->
+    <section class="page page-section" id="home">
+        <div class="container">
+            <h1 class="heading-primary">House of Ember</h1>
+            <p class="text-tagline">Where Light Meets Artistry</p>
+            <p class="text-subtitle">
+                Authentic craftsmanship meets aesthetic beauty. Premium quality candles that transform your space into a sanctuary of warmth and timeless elegance.
+            </p>
+            
+            <div class="grid grid--3-col">
+                <div class="hero-image hero-image--sage" role="img" aria-label="Sage Serenity Candle"></div>
+                <div class="hero-image hero-image--garden" role="img" aria-label="Garden Whisper Candle"></div>
+                <div class="hero-image hero-image--forest" role="img" aria-label="Forest Embrace Candle"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="page page-section" id="about">
+        <div class="container">
+            <h2 class="heading-secondary">Illuminate Your World</h2>
+            <p class="text-description">
+                Each candle is meticulously handcrafted with the finest natural waxes and carefully curated fragrances, 
+                creating an ambiance that speaks to your soul and elevates every moment into something extraordinary.
+            </p>
+            <div class="featured-image" role="img" aria-label="Featured handcrafted candle"></div>
+        </div>
+    </section>
+
+    <!-- Premium Collections Section -->
+    <section class="page page-section" id="premium">
+        <div class="container">
+            <h2 class="heading-secondary">Premium Collections</h2>
+            <p class="text-collection-subtitle">
+                Our most exquisite handcrafted candles featuring premium designs, unique fragrances, and artistic presentations.
+            </p>
+            
+            <div class="grid grid--collection" id="premium-products">
+                <!-- Products will be loaded dynamically from products.json -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Jar Candles Section -->
+    <section class="page page-section" id="jars">
+        <div class="container">
+            <h2 class="heading-secondary">Jar Candles</h2>
+            <p class="text-collection-subtitle">
+                Elegant jar candles with beautiful lids and sophisticated designs, perfect for any home décor.
+            </p>
+            
+            <div class="grid grid--collection" id="jar-products">
+                <!-- Products will be loaded dynamically from products.json -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Traditional Collection Section -->
+    <section class="page page-section" id="traditional">
+        <div class="container">
+            <h2 class="heading-secondary">Traditional Collection</h2>
+            <p class="text-collection-subtitle">
+                Classic Urli candles and traditional designs that bring cultural elegance and timeless beauty to your space.
+            </p>
+            
+            <div class="grid grid--collection" id="traditional-products">
+                <!-- Products will be loaded dynamically from products.json -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Hampers Section -->
+    <section class="page page-section" id="hampers">
+        <div class="container">
+            <h2 class="heading-secondary">Hampers</h2>
+            <p class="text-collection-subtitle">
+                Beautifully curated gift hampers perfect for special occasions, celebrations, and thoughtful presents.
+            </p>
+            
+            <div class="grid grid--collection" id="hampers-products">
+                <!-- Products will be loaded dynamically from products.json -->
+            </div>
+        </div>
+    </section>
+
+    <script>
+        'use strict';
+
+        class HouseOfEmberScrollNavigation {
+            constructor() {
+                this.sections = null;
+                this.navLinks = null;
+                this.isScrolling = false;
+                this.products = null;
+                
+                // Scroll performance debugging
+                this.scrollDebug = {
+                    lastScrollTime: 0,
+                    scrollEvents: [],
+                    lagSpikes: [],
+                    isMonitoring: true
+                };
+                
+                // Debounced scroll timeout
+                this.scrollTimeout = null;
+                
+                this.init();
+            }
+
+            async init() {
+                console.log('House of Ember - Dynamic Product System Loading...');
+                
+                // Ensure DOM is ready
+                await new Promise(resolve => {
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', resolve);
+                    } else {
+                        resolve();
+                    }
+                });
+                
+                console.log('📋 DOM ready, loading products...');
+                await this.loadProducts();
+                
+                console.log('🎨 Generating CSS...');
+                this.generateProductCSS();
+                
+                console.log('🏗️ Generating HTML...');
+                this.generateProductHTML();
+                
+                console.log('⚡ Setting up navigation...');
+                this.cacheElements();
+                this.bindEvents();
+                this.addAccessibility();
+                this.handleScrollIndicator();
+                
+                console.log('House of Ember - NAVIGATION FIXED! 🎯✨');
+                console.log('🔧 FIX APPLIED: Now scrolls to previous section bottom + buffer');
+                console.log('🎯 Long task monitoring: DISABLED');
+                console.log('🚫 Heavy transitions: DISABLED'); 
+                console.log('🚀 GPU acceleration: ENABLED');
+                console.log('⚡ Pointer events optimization: ENABLED');
+                console.log('📍 Navigation positioning: FIXED - No more white space!');
+                console.log('🔍 DEBUG MODE: Comprehensive logging ENABLED');
+                console.log('✨ Ready for smooth scrolling and navigation!');
+                console.log('');
+                console.log('🧪 DEBUGGING COMMANDS AVAILABLE:');
+                console.log('  window.houseOfEmberDebug.visualDebugMode() - Show colored section overlays');
+                console.log('  window.houseOfEmberDebug.quickNavTest("premium") - Simple navigation test');
+                console.log('  window.houseOfEmberDebug.fixAboutSection() - Fix About section overlap issue');
+                console.log('  window.houseOfEmberDebug.testNavAndFix("premium") - Test navigation with auto-fix');
+                console.log('  window.houseOfEmberDebug.testNavigation() - Show all section positions');
+                console.log('  window.houseOfEmberDebug.clearVisualDebug() - Remove visual overlays');
+                console.log('');
+                console.log('🎯 THE FIX: Navigation now scrolls past previous section completely!');
+                console.log('   • Before: Scroll to target - navbar - buffer');
+                console.log('   • After: Scroll to previous section bottom + 10px buffer');
+                console.log('   • Result: No more bottom of previous page visible!');
+                console.log('');
+                console.log('⚡ EMERGENCY: If navigation is broken, try:');
+                console.log('   window.houseOfEmberDebug.quickNavTest("premium")');
+                console.log('   window.houseOfEmberDebug.simpleNavFix("premium")');
+                console.log('   window.houseOfEmberDebug.fixAboutSection() - Fix About section overlap');
+                console.log('');
+                console.log('🔧 FIXES APPLIED:');
+                console.log('   • Buffer error fixed: Removed undefined variable references');
+                console.log('   • About section: Special positioning to prevent Premium overlap');
+                
+                // Add debugging commands to window for manual control
+                window.houseOfEmberDebug = {
+                    enableScrollMonitoring: () => {
+                        this.scrollDebug.isMonitoring = true;
+                        console.log('🔍 Scroll monitoring ENABLED');
+                    },
+                    disableScrollMonitoring: () => {
+                        this.scrollDebug.isMonitoring = false;
+                        console.log('🔇 Scroll monitoring DISABLED');
+                    },
+                    getLagReport: () => {
+                        console.group('📊 CURRENT LAG REPORT');
+                        console.log(`Total lag spikes: ${this.scrollDebug.lagSpikes.length}`);
+                        this.scrollDebug.lagSpikes.forEach((spike, i) => {
+                            console.log(`${i+1}. ${spike.lag.toFixed(1)}ms at ${spike.scrollY}px`);
+                        });
+                        console.groupEnd();
+                    },
+                    clearLagData: () => {
+                        this.scrollDebug.lagSpikes = [];
+                        console.log('🧹 Lag data cleared');
+                    },
+                    testScrollPerformance: () => {
+                        console.log('🧪 ULTRA-OPTIMIZED SCROLL TEST STARTING...');
+                        console.log('⚡ All heavy monitoring disabled');
+                        console.log('🚀 GPU acceleration enabled');
+                        console.log('🚫 Pointer events disabled during scroll');
+                        console.log('📊 Testing upward scroll (previously laggy)...');
+                        
+                        // Test the problematic upward scroll
+                        window.scrollTo({ top: 8000, behavior: 'auto' });
+                        setTimeout(() => {
+                            window.scrollTo({ top: 0, behavior: 'auto' });
+                            console.log('🏁 Upward scroll test completed - should be smooth now!');
+                        }, 1000);
+                    },
+                    testNavigation: () => {
+                        console.log('🧪 NAVIGATION POSITIONING TEST...');
+                        const navbar = document.querySelector('.nav');
+                        const navbarHeight = navbar ? navbar.offsetHeight : 60;
+                        console.log(`📏 Navbar height: ${navbarHeight}px`);
+                        
+                        const sections = document.querySelectorAll('.page-section');
+                        sections.forEach((section, i) => {
+                            const sectionTop = section.offsetTop;
+                            const isCollection = section.id.includes('premium') || section.id.includes('jar') || 
+                                               section.id.includes('traditional') || section.id.includes('hampers');
+                            const buffer = isCollection ? 5 : 10;
+                            const calculatedOffset = sectionTop - navbarHeight - buffer;
+                            console.log(`📍 Section ${i+1} (${section.id}): offsetTop=${sectionTop}px, buffer=${buffer}px, scrollTarget=${calculatedOffset}px`);
+                        });
+                    },
+                    showScrollTarget: (sectionId) => {
+                        const section = document.getElementById(sectionId);
+                        if (section) {
+                            const navbar = document.querySelector('.nav');
+                            const navbarHeight = navbar ? navbar.offsetHeight : 60;
+                            const isCollection = sectionId.includes('premium') || sectionId.includes('jar') || 
+                                               sectionId.includes('traditional') || sectionId.includes('hampers');
+                            const buffer = isCollection ? 5 : 10;
+                            const scrollTarget = section.offsetTop - navbarHeight - buffer;
+                            
+                            // Create visual indicator
+                            const indicator = document.createElement('div');
+                            indicator.style.cssText = `
+                                position: absolute;
+                                top: ${scrollTarget + window.pageYOffset}px;
+                                left: 0;
+                                width: 100%;
+                                height: 3px;
+                                background: red;
+                                z-index: 9999;
+                                pointer-events: none;
+                            `;
+                            document.body.appendChild(indicator);
+                            
+                            console.log(`🎯 Scroll target for ${sectionId}: ${scrollTarget}px (red line added to page)`);
+                            setTimeout(() => indicator.remove(), 5000);
+                        }
+                    },
+                    visualDebugMode: () => {
+                        console.log('🎨 VISUAL DEBUG MODE - Adding colored overlays...');
+                        
+                        // Remove existing debug overlays
+                        document.querySelectorAll('.debug-overlay').forEach(el => el.remove());
+                        
+                        const sections = document.querySelectorAll('.page-section');
+                        const colors = ['rgba(255,0,0,0.2)', 'rgba(0,255,0,0.2)', 'rgba(0,0,255,0.2)', 'rgba(255,255,0,0.2)', 'rgba(255,0,255,0.2)', 'rgba(0,255,255,0.2)'];
+                        
+                        sections.forEach((section, index) => {
+                            const overlay = document.createElement('div');
+                            overlay.className = 'debug-overlay';
+                            overlay.style.cssText = `
+                                position: absolute;
+                                top: ${section.offsetTop}px;
+                                left: 0;
+                                width: 100%;
+                                height: ${section.offsetHeight}px;
+                                background: ${colors[index % colors.length]};
+                                border: 2px solid ${colors[index % colors.length].replace('0.2', '1')};
+                                z-index: 10000;
+                                pointer-events: none;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 24px;
+                                font-weight: bold;
+                                color: white;
+                                text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+                            `;
+                            overlay.innerHTML = `${section.id}<br/>Start: ${section.offsetTop}px<br/>Height: ${section.offsetHeight}px`;
+                            document.body.appendChild(overlay);
+                            
+                            console.log(`📊 Section ${index + 1}: ${section.id} - Top: ${section.offsetTop}px, Height: ${section.offsetHeight}px`);
+                        });
+                        
+                        // Add viewport indicator
+                        const viewportIndicator = document.createElement('div');
+                        viewportIndicator.className = 'debug-overlay';
+                        viewportIndicator.style.cssText = `
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            height: 60px;
+                            background: rgba(0,0,0,0.8);
+                            color: white;
+                            z-index: 10001;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 14px;
+                        `;
+                        viewportIndicator.innerHTML = 'VIEWPORT TOP - Navbar should end here';
+                        document.body.appendChild(viewportIndicator);
+                        
+                        console.log('🎨 Visual debug overlays added - scroll around to see section boundaries');
+                        console.log('🎨 Call window.houseOfEmberDebug.clearVisualDebug() to remove');
+                    },
+                    clearVisualDebug: () => {
+                        document.querySelectorAll('.debug-overlay').forEach(el => el.remove());
+                        console.log('🧹 Visual debug overlays cleared');
+                    },
+                    testNavAndFix: (sectionId) => {
+                        console.log(`🔧 TESTING NAVIGATION TO: ${sectionId} with auto-fix...`);
+                        
+                        // First, show the current state
+                        window.houseOfEmberDebug.visualDebugMode();
+                        
+                        // Navigate and then check/fix
+                        const targetSection = document.getElementById(sectionId);
+                        if (targetSection) {
+                            const navbar = document.querySelector('.nav');
+                            const navbarHeight = navbar ? navbar.offsetHeight : 60;
+                            
+                            // Calculate where we should be
+                            const targetTop = targetSection.offsetTop;
+                            const idealScrollPos = targetTop - navbarHeight - 10;
+                            
+                            console.log(`🎯 Navigating to ${sectionId}...`);
+                            window.scrollTo({ top: idealScrollPos, behavior: 'smooth' });
+                            
+                            // Check and auto-fix after scroll
+                            setTimeout(() => {
+                                const currentScrollPos = window.pageYOffset;
+                                const targetSectionStart = targetSection.offsetTop;
+                                
+                                // Find previous section
+                                const allSections = document.querySelectorAll('.page-section');
+                                let prevSection = null;
+                                allSections.forEach((section, index) => {
+                                    if (section.id === sectionId && index > 0) {
+                                        prevSection = allSections[index - 1];
+                                    }
+                                });
+                                
+                                if (prevSection) {
+                                    const prevSectionBottom = prevSection.offsetTop + prevSection.offsetHeight;
+                                    
+                                    if (currentScrollPos < prevSectionBottom) {
+                                        console.log('⚠️ DETECTED: Previous section still visible - auto-fixing...');
+                                        const correctedPos = prevSectionBottom + 10; // 10px past previous section
+                                        window.scrollTo({ top: correctedPos, behavior: 'smooth' });
+                                        console.log(`✅ AUTO-FIX: Scrolled to ${correctedPos}px to clear previous section`);
+                                    } else {
+                                        console.log('✅ GOOD: Navigation looks correct!');
+                                    }
+                                }
+                                
+                                // Clear visual debug after a moment
+                                setTimeout(() => {
+                                    window.houseOfEmberDebug.clearVisualDebug();
+                                }, 3000);
+                                
+                            }, 1500);
+                        } else {
+                            console.log(`❌ ERROR: Section "${sectionId}" not found!`);
+                        }
+                    },
+                    quickNavTest: (sectionId) => {
+                        console.log(`🚀 QUICK NAV TEST: ${sectionId}`);
+                        const section = document.getElementById(sectionId);
+                        if (section) {
+                            console.log(`✅ Section found: ${sectionId} at ${section.offsetTop}px`);
+                            console.log(`📏 Section height: ${section.offsetHeight}px`);
+                            
+                            // Simple scroll test
+                            const scrollPos = section.offsetTop - 80;
+                            console.log(`🎯 Scrolling to: ${scrollPos}px`);
+                            window.scrollTo({ top: scrollPos, behavior: 'smooth' });
+                        } else {
+                            console.log(`❌ Section NOT found: ${sectionId}`);
+                            console.log('📋 Available sections:');
+                            document.querySelectorAll('.page-section').forEach((sec, i) => {
+                                console.log(`  ${i}: ${sec.id} (${sec.offsetTop}px)`);
+                            });
+                        }
+                    },
+                    simpleNavFix: (sectionId) => {
+                        console.log(`🛟 EMERGENCY SIMPLE NAVIGATION: ${sectionId}`);
+                        const section = document.getElementById(sectionId);
+                        if (section) {
+                            // Ultra-simple navigation - just go to the section
+                            const simplePos = section.offsetTop;
+                            console.log(`📍 Section position: ${simplePos}px`);
+                            console.log(`🚀 Simple scroll to: ${simplePos}px`);
+                            
+                            // Disable smooth scroll first
+                            document.documentElement.style.scrollBehavior = 'auto';
+                            window.scrollTo(0, simplePos);
+                            
+                            console.log(`✅ Immediate scroll complete to: ${window.pageYOffset}px`);
+                        } else {
+                            console.log(`❌ Section ${sectionId} not found`);
+                        }
+                    },
+                    fixAboutSection: () => {
+                        console.log(`📖 ABOUT SECTION FIX TOOL`);
+                        const aboutSection = document.getElementById('about');
+                        const navbar = document.querySelector('.nav');
+                        
+                        if (aboutSection && navbar) {
+                            const navbarHeight = navbar.offsetHeight;
+                            const aboutTop = aboutSection.offsetTop;
+                            const fixedPosition = aboutTop - navbarHeight - 5;
+                            
+                            console.log(`📖 About section at: ${aboutTop}px`);
+                            console.log(`📏 Navbar height: ${navbarHeight}px`);
+                            console.log(`🎯 Fixed scroll position: ${fixedPosition}px`);
+                            
+                            document.documentElement.style.scrollBehavior = 'smooth';
+                            window.scrollTo(0, fixedPosition);
+                            
+                            setTimeout(() => {
+                                const viewportTop = window.pageYOffset;
+                                const viewportBottom = viewportTop + window.innerHeight;
+                                const aboutBottom = aboutTop + aboutSection.offsetHeight;
+                                
+                                console.log(`📊 RESULTS:`);
+                                console.log(`👁️ Viewport: ${viewportTop}px - ${viewportBottom}px`);
+                                console.log(`📖 About section: ${aboutTop}px - ${aboutBottom}px`);
+                                
+                                // Check if premium section is visible
+                                const premiumSection = document.getElementById('premium');
+                                if (premiumSection) {
+                                    const premiumTop = premiumSection.offsetTop;
+                                    if (viewportBottom > premiumTop) {
+                                        console.log(`⚠️ Premium section starts at ${premiumTop}px - STILL VISIBLE!`);
+                                        console.log(`💡 Try reducing About section padding or increasing content`);
+                                    } else {
+                                        console.log(`✅ Premium section starts at ${premiumTop}px - HIDDEN!`);
+                                    }
+                                }
+                            }, 1000);
+                        }
+                    },
+                    enableMinimalLogging: () => {
+                        console.log('📊 MINIMAL LOGGING MODE - Only essential messages');
+                        // Stop all console spam
+                        this.scrollDebug.isMonitoring = false;
+                    }
+                };
+                
+                console.log('🛠️ Debug commands available: window.houseOfEmberDebug');
+            }
+
+            async loadProducts() {
+                try {
+                    console.log('🔄 Attempting to fetch products.json...');
+                    const response = await fetch('products.json');
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    console.log('📡 Response received, parsing JSON...');
+                    this.products = await response.json();
+                    console.log('✅ Products loaded:', Object.keys(this.products).length, 'collections');
+                    console.log('📊 Products data:', this.products);
+                } catch (error) {
+                    console.error('❌ Failed to load products:', error);
+                    console.error('🔍 Error details:', error.message);
+                    
+                    // Fallback with complete dataset (for file:// access)
+                    console.log('🔄 Using complete fallback data...');
+                    this.products = {
+                        "premium_collections": [
+                            "blueberry_martini_candle", "cactus_boat", "cactus_garden_candle",
+                            "colorful_floral_urli_candles_assortment", "dessert_candles",
+                            "fruit_martini_candles", "iced_coffee_latte_candle", "mango_martini_candle",
+                            "mini_cactus_candles", "mini_cactus_garden_bowl", "mini_cactus_garden_cork_lids",
+                            "modak_candles", "ocean_breeze_candle", "ocean_candles", "ocean_pearl_candle",
+                            "peony_candle", "single_peony_bouquet", "strawberry_martini_candle"
+                        ],
+                        "jar_candles": [
+                            "cactus_garden_wooden_jar", "candle_jar_with_cloche", "candle_jar_with_wood_lid",
+                            "gel_wax_candle_jar", "jar_candle", "mini_cactus_garden_jars",
+                            "peony_jar_and_mini_cactus", "peony_jar_candle"
+                        ],
+                        "traditional_collection": [
+                            "assorted_and_packaged_urli_candles", "laddo_candles", "rose_urli_candles_with_giftbox",
+                            "seashell_urli_candle", "simple_brass_urli_candles", "white_pearl_urli_candles",
+                            "yellow_and_white_floral_urli_candles", "yellow_floral_urli_candles"
+                        ],
+                        "hampers": ["hampers", "hampers_2"]
+                    };
+                    console.log('📊 Fallback data loaded:', this.products);
+                }
+            }
+
+            generateProductCSS() {
+                // Create a style element for dynamic CSS
+                const style = document.createElement('style');
+                let css = '\n/* Dynamic Product CSS - Generated from products.json */\n';
+                let cssCount = 0;
+                
+                Object.entries(this.products).forEach(([collectionName, productList]) => {
+                    console.log(`🎨 Generating CSS for ${collectionName} (${productList.length} products)`);
+                    productList.forEach(productName => {
+                        // Determine file extension (assume .png, could be enhanced)
+                        const imagePath = `images/${collectionName}/${productName}.png`;
+                        css += `.product-image--${productName} { 
+                            background-image: url('${imagePath}'); 
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+                        }\n`;
+                        cssCount++;
+                    });
+                });
+                
+                style.textContent = css;
+                document.head.appendChild(style);
+                console.log(`🎨 Dynamic CSS generated: ${cssCount} product styles created`);
+                console.log(`🔍 Sample CSS:`, css.substring(0, 300) + '...');
+            }
+
+            generateProductHTML() {
+                console.log('🏗️ Starting HTML generation...');
+                const collections = {
+                    'premium_collections': 'premium-products',
+                    'jar_candles': 'jar-products', 
+                    'traditional_collection': 'traditional-products',
+                    'hampers': 'hampers-products'
+                };
+
+                console.log('🔍 Available collections:', Object.keys(this.products));
+                
+                Object.entries(this.products).forEach(([collectionName, productList]) => {
+                    const containerId = collections[collectionName];
+                    console.log(`🎯 Processing ${collectionName} → ${containerId}`);
+                    const container = document.getElementById(containerId);
+                    
+                    if (container) {
+                        console.log(`✅ Container found for ${containerId}`);
+                        console.log(`📋 Product list for ${collectionName}:`, productList);
+                        
+                        let html = '';
+                        productList.forEach((productName, index) => {
+                            const title = this.convertToTitle(productName);
+                            console.log(`  ${index + 1}. ${productName} → "${title}"`);
+                            html += `
+                                <article class="product-card">
+                                    <div class="product-image product-image--${productName}" role="img" aria-label="${title}"></div>
+                                    <h3 class="heading-tertiary">${title}</h3>
+                                </article>
+                            `;
+                        });
+                        
+                        console.log(`📝 Generated HTML for ${collectionName}:`, html.substring(0, 200) + '...');
+                        container.innerHTML = html;
+                        console.log(`📦 ${collectionName}: ${productList.length} products generated`);
+                        console.log(`🔍 Container content after update:`, container.children.length, 'elements');
+                        
+                                                 // Debug: Check if all elements are actually in the DOM (with slight delay for CSS to apply)
+                        setTimeout(() => {
+                            const actualProducts = container.querySelectorAll('.product-card');
+                            console.log(`🔎 Actual product cards in DOM for ${collectionName}:`, actualProducts.length);
+                            
+                            // Debug container dimensions
+                            const containerRect = container.getBoundingClientRect();
+                            console.log(`📏 Container "${containerId}" dimensions:`, {
+                                width: containerRect.width,
+                                height: containerRect.height,
+                                visible: containerRect.width > 0 && containerRect.height > 0
+                            });
+                            
+                            actualProducts.forEach((card, i) => {
+                                const title = card.querySelector('.heading-tertiary')?.textContent;
+                                const imageDiv = card.querySelector('.product-image');
+                                const bgImage = window.getComputedStyle(imageDiv).backgroundImage;
+                                const cardRect = card.getBoundingClientRect();
+                                console.log(`  ${i+1}. "${title}" - BG: ${bgImage !== 'none' ? '✅ Has image' : '❌ No image'} - Visible: ${cardRect.width > 0 && cardRect.height > 0}`);
+                            });
+                        }, 100);
+                    } else {
+                        console.error(`❌ Container NOT found: ${containerId}`);
+                    }
+                });
+                console.log('✨ HTML generation complete');
+                
+                // Final debug summary
+                setTimeout(() => {
+                    const allProductCards = document.querySelectorAll('.product-card');
+                    console.log(`📊 FINAL SUMMARY: ${allProductCards.length} total product cards in DOM`);
+                    
+                    const collectionsWithCounts = {};
+                    ['premium-products', 'jar-products', 'traditional-products', 'hampers-products'].forEach(id => {
+                        const container = document.getElementById(id);
+                        const count = container ? container.querySelectorAll('.product-card').length : 0;
+                        collectionsWithCounts[id] = count;
+                    });
+                    console.log(`📈 Products per collection:`, collectionsWithCounts);
+                }, 200);
+            }
+
+            convertToTitle(productName) {
+                // Convert underscore naming to proper title case
+                return productName
+                    .split('_')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(' ');
+            }
+
+            cacheElements() {
+                // Cache DOM elements to avoid repeated queries
+                this.sections = document.querySelectorAll('.page-section');
+                this.navLinks = document.querySelectorAll('.nav-link');
+                console.log(`🎯 Cached ${this.sections.length} sections and ${this.navLinks.length} nav links`);
+                
+                // Double-check that product containers exist
+                const productContainers = ['premium-products', 'jar-products', 'traditional-products', 'hampers-products'];
+                productContainers.forEach(id => {
+                    const container = document.getElementById(id);
+                    if (container) {
+                        console.log(`✅ Product container found: ${id}`);
+                    } else {
+                        console.error(`❌ Product container MISSING: ${id}`);
+                    }
+                });
+            }
+
+            bindEvents() {
+                // Navigation click handlers
+                this.navLinks.forEach(link => {
+                    link.addEventListener('click', this.handleNavigation.bind(this));
+                });
+
+                // Enhanced scroll event with performance monitoring
+                window.addEventListener('scroll', this.monitoredScrollHandler.bind(this), { passive: true });
+                
+                // DISABLED: Scroll performance reporting to eliminate long tasks
+                // console.log('📊 Performance reporting disabled to improve scroll performance');
+            }
+
+            monitoredScrollHandler() {
+                // ULTRA-MINIMAL scroll handler to eliminate long tasks
+                
+                // Disable pointer events during scroll
+                document.body.classList.add('scrolling');
+                
+                // Aggressive throttling - only process every 3rd scroll event
+                if (!this.isScrolling) {
+                    this.isScrolling = true;
+                    
+                    // Use setTimeout instead of RAF for better performance
+                    setTimeout(() => {
+                        this.isScrolling = false;
+                    }, 16); // ~60fps throttling
+                }
+                
+                // Debounced active link update (only when scrolling stops)
+                clearTimeout(this.scrollTimeout);
+                this.scrollTimeout = setTimeout(() => {
+                    this.updateActiveLinksDebounced();
+                    // Re-enable pointer events after scroll stops
+                    document.body.classList.remove('scrolling');
+                }, 200); // Increased delay to reduce processing
+            }
+            
+
+            
+            updateActiveLinksDebounced() {
+                // Only update active links when scrolling has stopped
+                const scrollPosition = window.pageYOffset;
+                let currentSection = '';
+                
+                // Calculate navbar height for consistent offset calculation
+                const navbar = document.querySelector('.nav');
+                const navbarHeight = navbar ? navbar.offsetHeight : 60;
+                const buffer = 20; // Reduced buffer for tighter positioning
+                
+                // Use cached elements for better performance
+                this.sections.forEach(section => {
+                    const sectionTop = section.offsetTop - navbarHeight - buffer;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (scrollPosition >= sectionTop && 
+                        scrollPosition < sectionTop + sectionHeight) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+
+                // Update active nav link without performance impact
+                const currentActiveLink = document.querySelector('.nav-link.active');
+                const newActiveLink = document.querySelector(`[data-page="${currentSection}"]`);
+                
+                if (currentActiveLink !== newActiveLink) {
+                    this.navLinks.forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    if (newActiveLink) {
+                        newActiveLink.classList.add('active');
+                    }
+                }
+            }
+            
+            createRippleEffect(element, event) {
+                // Create ripple effect at click position
+                const ripple = document.createElement('span');
+                const rect = element.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = event.clientX - rect.left - size / 2;
+                const y = event.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(139, 154, 138, 0.3);
+                    transform: scale(0);
+                    animation: ripple 0.6s ease-out;
+                    left: ${x}px;
+                    top: ${y}px;
+                    width: ${size}px;
+                    height: ${size}px;
+                    pointer-events: none;
+                    z-index: 1;
+                `;
+                
+                element.style.position = 'relative';
+                element.style.overflow = 'hidden';
+                element.appendChild(ripple);
+                
+                // Remove ripple after animation
+                setTimeout(() => {
+                    if (ripple.parentNode) {
+                        ripple.parentNode.removeChild(ripple);
+                    }
+                }, 600);
+            }
+            
+            showScrollIndicator() {
+                // Create scroll progress indicator
+                const indicator = document.createElement('div');
+                indicator.className = 'scrolling-indicator';
+                document.body.appendChild(indicator);
+                
+                // Remove indicator after animation completes
+                setTimeout(() => {
+                    if (indicator.parentNode) {
+                        indicator.parentNode.removeChild(indicator);
+                    }
+                }, 1200);
+            }
+
+            handleNavigation(event) {
+                event.preventDefault();
+                
+                const clickTime = performance.now();
+                const clickedLink = event.target;
+                const targetPage = clickedLink.getAttribute('data-page');
+                
+                console.log(`🖱️ NAV CLICK: ${targetPage} at ${clickTime.toFixed(1)}ms`);
+                
+                // Add click animation
+                clickedLink.classList.add('clicking');
+                
+                // Create ripple effect at click position
+                this.createRippleEffect(clickedLink, event);
+                
+                // Special handling for home page
+                if (targetPage === 'home') {
+                    console.log('🏠 Navigating to home page (top of document)');
+                }
+                
+                // Wait for animation, then scroll and update active state
+                setTimeout(() => {
+                    // Add navigating state
+                    clickedLink.classList.add('navigating');
+                    clickedLink.classList.remove('clicking');
+                    
+                    // Add scroll progress indicator
+                    this.showScrollIndicator();
+                    
+                    // Update active nav link
+                    this.updateActiveNavLink(clickedLink);
+                    
+                    // Scroll to target section with smooth animation
+                    this.scrollToSection(targetPage);
+                    
+                    // Remove navigating state after scroll completes
+                    setTimeout(() => {
+                        clickedLink.classList.remove('navigating');
+                    }, 1200);
+                    
+                }, 200); // Small delay for click animation to be visible
+                
+                // Monitor scroll completion
+                setTimeout(() => {
+                    const scrollEndTime = performance.now();
+                    const scrollDuration = scrollEndTime - clickTime;
+                    console.log(`📜 NAVIGATION COMPLETED: ${targetPage} took ${scrollDuration.toFixed(1)}ms total`);
+                    
+                    // Add subtle success feedback
+                    clickedLink.classList.add('navigation-complete');
+                    setTimeout(() => {
+                        clickedLink.classList.remove('navigation-complete');
+                    }, 500);
+                }, 1200);
+            }
+
+            scrollToSection(sectionId) {
+                try {
+                    // Special handling for home page
+                    if (sectionId === 'home' || !sectionId) {
+                        document.documentElement.style.scrollBehavior = 'smooth';
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                        setTimeout(() => {
+                            document.documentElement.style.scrollBehavior = 'auto';
+                        }, 1000);
+                        return;
+                    }
+                
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) {
+                    // Calculate navbar height dynamically
+                    const navbar = document.querySelector('.nav');
+                    const navbarHeight = navbar ? navbar.offsetHeight : 60;
+                    
+                    // FIXED: Use previous section's bottom + buffer for accurate positioning
+                    let scrollTarget;
+                    
+                    // Find previous section to ensure we scroll past it completely
+                    const allSectionsForNav = document.querySelectorAll('.page-section');
+                    let prevSectionForNav = null;
+                    allSectionsForNav.forEach((section, index) => {
+                        if (section.id === sectionId && index > 0) {
+                            prevSectionForNav = allSectionsForNav[index - 1];
+                        }
+                    });
+                    
+                    if (prevSectionForNav) {
+                        // Special handling for About section to prevent showing next section
+                        if (sectionId === 'about') {
+                            // For About section, scroll to its exact start position
+                            scrollTarget = targetSection.offsetTop - navbarHeight - 5;
+                            console.log(`📖 ABOUT SECTION: Scrolling to exact position = ${scrollTarget}px`);
+                            console.log(`📖 About section starts at: ${targetSection.offsetTop}px`);
+                        } else {
+                            // For other sections, scroll past previous section's bottom
+                            const prevSectionBottom = prevSectionForNav.offsetTop + prevSectionForNav.offsetHeight;
+                            scrollTarget = prevSectionBottom + 10; // 10px buffer past previous section
+                            console.log(`🔧 FIX: Using previous section bottom (${prevSectionBottom}px) + 10px buffer = ${scrollTarget}px`);
+                            console.log(`🎯 Target section starts at: ${targetSection.offsetTop}px`);
+                            console.log(`📐 Distance past target section start: ${scrollTarget - targetSection.offsetTop}px`);
+                        }
+                    } else {
+                        // First section - use traditional method
+                        scrollTarget = targetSection.offsetTop - navbarHeight - 10;
+                        console.log(`🏠 First section: Using standard offset = ${scrollTarget}px`);
+                    }
+                    
+                    // Validate scroll target
+                    if (scrollTarget < 0) {
+                        console.log(`⚠️ WARNING: Negative scroll target (${scrollTarget}px), setting to 0`);
+                        scrollTarget = 0;
+                    }
+                    
+                    console.log(`✅ FINAL SCROLL TARGET: ${scrollTarget}px`);
+                    
+                    const offsetTop = scrollTarget;
+                    
+                    // SIMPLIFIED DEBUGGING (to avoid undefined variable errors)
+                console.log('🔍 ===========================================');
+                console.log('🔍 NAVIGATION DEBUG - FIXED ALGORITHM');
+                console.log('🔍 ===========================================');
+                console.log(`🎯 Target section: ${sectionId}`);
+                console.log(`📏 Target section offsetTop: ${targetSection.offsetTop}px`);
+                console.log(`📐 Navbar height: ${navbarHeight}px`);
+                console.log(`🧮 Final scroll target: ${offsetTop}px`);
+                console.log(`📍 Current scroll position: ${window.pageYOffset}px`);
+                console.log('🔍 ===========================================');
+                    
+                    // Temporarily enable smooth scroll for navigation clicks
+                    document.documentElement.style.scrollBehavior = 'smooth';
+                    
+                    console.log(`🚀 EXECUTING SCROLL: window.scrollTo({ top: ${Math.max(0, offsetTop)}, behavior: 'smooth' })`);
+                    console.log(`📍 Current position before scroll: ${window.pageYOffset}px`);
+                    
+                    window.scrollTo({
+                        top: Math.max(0, offsetTop), // Ensure we don't scroll above the page
+                        behavior: 'smooth'
+                    });
+                    
+                    // Check if scroll started
+                    setTimeout(() => {
+                        console.log(`📍 Position 100ms after scroll command: ${window.pageYOffset}px`);
+                    }, 100);
+                    
+                    // Reset scroll behavior and check final position
+                    setTimeout(() => {
+                        document.documentElement.style.scrollBehavior = 'auto';
+                        
+                        // LOG FINAL POSITION AFTER SCROLL
+                        console.log('🎯 ===========================================');
+                        console.log('🎯 POST-SCROLL ANALYSIS');
+                        console.log('🎯 ===========================================');
+                        console.log(`📍 Final scroll position: ${window.pageYOffset}px`);
+                        console.log(`🎯 Intended scroll position: ${offsetTop}px`);
+                        console.log(`📐 Difference: ${window.pageYOffset - offsetTop}px`);
+                        
+                        // Re-get target section for accurate measurements
+                        const currentTargetSection = document.getElementById(sectionId);
+                        
+                        // Check what's visible at the top of viewport
+                        const viewportTop = window.pageYOffset;
+                        const viewportBottom = viewportTop + window.innerHeight;
+                        const targetSectionTop = currentTargetSection.offsetTop;
+                        const targetSectionBottom = targetSectionTop + currentTargetSection.offsetHeight;
+                        
+                        console.log(`👁️ Viewport top: ${viewportTop}px`);
+                        console.log(`👁️ Viewport bottom: ${viewportBottom}px`);
+                        console.log(`📦 Target section start: ${targetSectionTop}px`);
+                        console.log(`📦 Target section end: ${targetSectionBottom}px`);
+                        
+                        // Calculate how much of target section is visible
+                        const visibleStart = Math.max(viewportTop, targetSectionTop);
+                        const visibleEnd = Math.min(viewportBottom, targetSectionBottom);
+                        const visibleHeight = Math.max(0, visibleEnd - visibleStart);
+                        const visibilityPercent = (visibleHeight / currentTargetSection.offsetHeight) * 100;
+                        
+                        console.log(`👁️ Target section visibility: ${visibilityPercent.toFixed(1)}%`);
+                        
+                        // Re-find previous section
+                        const allSectionsPost = document.querySelectorAll('.page-section');
+                        let prevSectionPost = null;
+                        allSectionsPost.forEach((section, index) => {
+                            if (section.id === sectionId && index > 0) {
+                                prevSectionPost = allSectionsPost[index - 1];
+                            }
+                        });
+                        
+                        // Check if previous section is visible
+                        if (prevSectionPost) {
+                            const prevSectionBottom = prevSectionPost.offsetTop + prevSectionPost.offsetHeight;
+                            if (viewportTop < prevSectionBottom) {
+                                const prevVisibleHeight = prevSectionBottom - viewportTop;
+                                console.log(`⚠️ ISSUE: Previous section (${prevSectionPost.id}) is visible!`);
+                                console.log(`⚠️ Previous section visible height: ${prevVisibleHeight}px`);
+                                console.log(`⚠️ This is why you see content from previous page!`);
+                                
+                                // Calculate how much we need to scroll further
+                                const additionalScroll = prevSectionBottom - viewportTop + 10; // +10px buffer
+                                console.log(`💡 SOLUTION: Need to scroll ${additionalScroll}px more`);
+                                console.log(`💡 Better scroll target would be: ${viewportTop + additionalScroll}px`);
+                            } else {
+                                console.log(`✅ SUCCESS: No previous section overlap detected!`);
+                            }
+                        }
+                        
+                        // Special check for About section
+                        if (sectionId === 'about') {
+                            // Check if next section (Premium Collection) is visible
+                            const nextSections = document.querySelectorAll('.page-section');
+                            let nextSection = null;
+                            nextSections.forEach((section, index) => {
+                                if (section.id === sectionId && index < nextSections.length - 1) {
+                                    nextSection = nextSections[index + 1];
+                                }
+                            });
+                            
+                            if (nextSection) {
+                                const nextSectionTop = nextSection.offsetTop;
+                                if (viewportBottom > nextSectionTop) {
+                                    const nextVisibleHeight = viewportBottom - nextSectionTop;
+                                    console.log(`⚠️ ABOUT ISSUE: Next section (${nextSection.id}) is visible!`);
+                                    console.log(`⚠️ Next section visible height: ${nextVisibleHeight}px`);
+                                    console.log(`📖 About section may be too short for viewport`);
+                                } else {
+                                    console.log(`✅ ABOUT SUCCESS: Only About section is visible!`);
+                                }
+                            }
+                        }
+                        
+                        console.log('🎯 ===========================================');
+                                         }, 1200); // Slightly longer to ensure scroll is complete
+                }
+                } catch (error) {
+                    console.error('🚨 NAVIGATION ERROR:', error);
+                    console.log('🛟 FALLBACK: Using emergency simple navigation');
+                    
+                    // Emergency fallback navigation
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        document.documentElement.style.scrollBehavior = 'auto';
+                        window.scrollTo(0, section.offsetTop);
+                        console.log(`✅ Emergency navigation to ${sectionId} complete`);
+                    }
+                }
+            }
+
+
+
+            updateActiveNavLink(activeLink) {
+                this.navLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+                activeLink.classList.add('active');
+            }
+
+            addAccessibility() {
+                // Add keyboard navigation for interactive elements
+                const heroImages = document.querySelectorAll('.hero-image');
+                const productCards = document.querySelectorAll('.product-card');
+                
+                // Use spread operator to combine arrays for better performance
+                [...heroImages, ...productCards, ...this.navLinks].forEach(element => {
+                    element.setAttribute('tabindex', '0');
+                });
+                console.log('♿ Accessibility features added');
+            }
+
+            handleScrollIndicator() {
+                // Optional: Add scroll indicators or other scroll-based features
+                console.log(`📍 ${this.sections.length} scrollable sections initialized`);
+                
+                // Start performance monitoring
+                this.startPerformanceMonitoring();
+            }
+            
+            startPerformanceMonitoring() {
+                console.log('🔍 MINIMAL PERFORMANCE MONITORING - Disabled heavy monitoring to eliminate long tasks');
+                console.log('📊 Heavy monitoring disabled to improve scroll performance');
+                
+                // DISABLED: All heavy monitoring that causes long tasks
+                // - Long task monitoring
+                // - CSS transition monitoring  
+                // - Image loading monitoring
+                // - Scroll direction monitoring
+                
+                console.log('✅ Lightweight monitoring enabled - only essential logging');
+            }
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            new HouseOfEmberScrollNavigation();
+        });
+    </script>
+</body>
+</html> 

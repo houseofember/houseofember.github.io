@@ -1,0 +1,46 @@
+{
+  "premium_collections": [
+    "blueberry_martini_candle",
+    "cactus_boat", 
+    "cactus_garden_candle",
+    "dessert_candles",
+    "fruit_martini_candles",
+    "iced_coffee_latte_candle",
+    "mango_martini_candle",
+    "mini_cactus_candles",
+    "mini_cactus_garden_bowl",
+    "mini_cactus_garden_cork_lids",
+    "modak_candles",
+    "ocean_breeze_candle",
+    "ocean_candles",
+    "ocean_pearl_candle",
+    "peony_candle",
+    "single_peony_bouquet",
+    "strawberry_martini_candle"
+  ],
+  "jar_candles": [
+    "cactus_garden_wooden_jar",
+    "candle_jar_with_cloche",
+    "candle_jar_with_wood_lid",
+    "gel_wax_candle_jar",
+    "jar_candle",
+    "mini_cactus_garden_jars",
+    "peony_jar_and_mini_cactus",
+    "peony_jar_candle"
+  ],
+  "traditional_collection": [
+    "assorted_and_packaged_urli_candles",
+    "laddo_candles",
+    "rose_urli_candles_with_giftbox",
+    "seashell_urli_candle",
+    "simple_brass_urli_candles",
+    "white_pearl_urli_candles",
+    "colorful_floral_urli_candles_assortment",
+    "yellow_and_white_floral_urli_candles",
+    "yellow_floral_urli_candles"
+  ],
+  "hampers": [
+    "hampers",
+    "hampers_2"
+  ]
+} 
